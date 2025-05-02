@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SQL Chart Visualizer</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h2>Enter SQL Query or Ask in Plain English</h2>
+
+  <form id="form" method="post">
+    <label for="nl_query">Natural Language Query:</label><br>
+    <input type="text" name="nl_query" value="{{ nl_query or '' }}" size="60"><br><br>
+
+    <label for="query">SQL Query:</label><br>
+    <textarea id="sql-input" name="query" rows="4" cols="60">{{ query or "" }}</textarea><br>
+
+    <button type="submit">Run</button>
+    <button type="button" id="rest">Reset</button>
+  </form>
+
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+
+  {% if rows %}
+    <h3>Query Result</h3>
+    <table border="1">
+      <tr>
+        {% for col in columns %}
+          <th>{{ col }}</th>
+        {% endfor %}
+      </tr>
+      {% for row in rows %}
+        <tr>
+          {% for col in row %}
+            <td>{{ col }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+
+  {% if chart_data %}
+    <h3>Visualize Your Data</h3>
+    <label for="labelSelect">X-axis (Label):</label>
+    <select id="labelSelect"></select>
+
+    <label for="valueSelect">Y-axis (Values):</label>
+    <select id="valueSelect" multiple size="5" style="width: 200px;"></select>
+
+    <label for="chartTypeSelect">Chart Type:</label>
+    <select id="chartTypeSelect">
+      <option value="bar">Bar</option>
+      <option value="line">Line</option>
+      <option value="pie">Pie</option>
+    </select>
+
+    <canvas id="myChart" width="800" height="400"></canvas>
+
+    <script type="text/javascript">
+      const chartData = {{ chart_data | tojson }};
+      const columns = Object.keys(chartData[0]);
+
+      const labelSelect = document.getElementById('labelSelect');
+      const valueSelect = document.getElementById('valueSelect');
+      const chartTypeSelect = document.getElementById('chartTypeSelect');
+
+      // Populate dropdowns
+      columns.forEach(col => {
+        const opt1 = new Option(col, col);
+        labelSelect.appendChild(opt1);
+        const opt2 = new Option(col, col);
+        valueSelect.appendChild(opt2);
+      });
+
+      let chart;
+
+      function generateColors(count) {
+        const colors = [];
+        for (let i = 0; i < count; i++) {
+          colors.push(`hsl(${(i * 360 / count)}, 70%, 60%)`);
+        }
+        return colors;
+      }
+
+      function getSelectedValues(select) {
+        return Array.from(select.selectedOptions).map(opt => opt.value);
+      }
+
+      function drawChart() {
+        const labelKey = labelSelect.value;
+        let valueKeys = getSelectedValues(valueSelect);
+        const chartType = chartTypeSelect.value;
+
+        const labels = chartData.map(row => row[labelKey]);
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+        if (chart) chart.destroy();
+
+        if (chartType === 'pie') {
+          // For pie chart, only one valueKey is allowed
+          const valueKey = valueKeys[0];
+          const values = chartData.map(row => parseFloat(row[valueKey]));
+          const colors = generateColors(labels.length);
+
+          chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: labels,
+              datasets: [{
+                label: valueKey,
+                data: values,
+                backgroundColor: colors,
+              }]
+            },
+            options: {
+              responsive: true
+            }
+          });
+        } else {
+          const colors = generateColors(valueKeys.length);
+          const datasets = valueKeys.map((key, idx) => ({
+            label: key,
+            data: chartData.map(row => parseFloat(row[key])),
+            backgroundColor: chartType === 'bar' ? colors[idx] : 'transparent',
+            borderColor: colors[idx],
+            borderWidth: 2,
+            fill: false
+          }));
+
+          chart = new Chart(ctx, {
+            type: chartType,
+            data: {
+              labels,
+              datasets
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        }
+      }
+
+      function handleChartTypeChange() {
+        const chartType = chartTypeSelect.value;
+        if (chartType === 'pie') {
+          // Only allow single selection
+          valueSelect.multiple = false;
+          valueSelect.size = 1;
+        } else {
+          valueSelect.multiple = true;
+          valueSelect.size = 5;
+        }
+        drawChart();
+      }
+
+      labelSelect.addEventListener('change', drawChart);
+      valueSelect.addEventListener('change', drawChart);
+      chartTypeSelect.addEventListener('change', handleChartTypeChange);
+
+      window.onload = () => {
+        labelSelect.selectedIndex = 0;
+
+        // Auto-select first two numeric Y-values
+        let selectedCount = 0;
+        for (let opt of valueSelect.options) {
+          if (!isNaN(chartData[0][opt.value]) && selectedCount < 2) {
+            opt.selected = true;
+            selectedCount++;
+          }
+        }
+        handleChartTypeChange(); // initialize chart
+      };
+
+      document.getElementById('rest').addEventListener('click', () => {
+        document.getElementById('sql-input').value = '';
+      });
+    </script>
+  {% endif %}
+</body>
+</html>

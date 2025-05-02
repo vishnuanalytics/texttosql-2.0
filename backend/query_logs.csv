@@ -1,0 +1,385 @@
+timestamp,nl_query,sql_query,status_code,response
+2025-05-01T13:19:47.573344,subtotal revenue from both the businesses for swiggy platform,"SELECT SUM(order_subtotal) as total_subtotal
+FROM common_order
+WHERE order_channel = 'Swiggy';",200, Here is a SQL query that will give you the subtotal revenue from both the businesses for the Swiggy platform:  ```sql SELECT SUM(order_subtotal) as total_subtotal FROM common_order WHERE order_channel = 'Swiggy'; ```
+2025-05-01T13:38:55.313480,subtotal revenue for each business for swiggy platform,"SELECT biz_id, SUM(order_subtotal) as total_subtotal
+FROM common_order
+WHERE order_channel = 'Swiggy'
+GROUP BY biz_id;",200," ```sql SELECT biz_id, SUM(order_subtotal) as total_subtotal FROM common_order WHERE order_channel = 'Swiggy' GROUP BY biz_id; ```"
+2025-05-01T13:40:41.090528,subtotal revenue for each business for website platform,"SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_revenue
+FROM common_biz
+JOIN common_order
+ON common_biz.biz_id = common_order.biz_id
+WHERE common_order.order_channel = 'website';",200," Here is a SQL query to get the subtotal revenue for each business for the website platform:  ```sql SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_revenue FROM common_biz JOIN common_order ON common_biz.biz_id = common_order.biz_id WHERE common_order.order_channel = 'website'; "
+2025-05-01T14:00:42.629221,subtotal revenue for all business which orders came from website,"SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal
+FROM common_biz
+JOIN common_bizlocation
+ON common_biz.biz_id = common_bizlocation.biz_id
+JOIN common_order
+ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE common_order.order_channel = 'website'
+GROUP BY common_biz.biz_id;",200," Here is a SQL query to get the subtotal revenue for all businesses that have orders placed through the website:  ```sql SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal FROM common_biz JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id JOIN common_o"
+2025-05-01T14:00:55.605913,subtotal revenue for all business which orders came from website,"SELECT SUM(order_subtotal) as Total_Subtotal
+FROM common_order
+WHERE order_channel = 'website';",200, ```sql SELECT SUM(order_subtotal) as Total_Subtotal FROM common_order WHERE order_channel = 'website'; ```  This query calculates the total subtotal revenue for all businesses that have orders placed through the website.
+2025-05-01T14:08:13.578449,subtotal revenue for all business which orders came from phones,"SELECT SUM(order_subtotal) as Total_Subtotal
+FROM common_order
+WHERE order_channel LIKE '%phone%';",200, ```sql SELECT SUM(order_subtotal) as Total_Subtotal FROM common_order WHERE order_channel LIKE '%phone%'; ```  This query calculates the total subtotal revenue for all businesses where orders came from phones. The `LIKE '%phone%'` operator is used to match any string that contains 'phone'.
+2025-05-01T14:09:16.682580,subtotal revenue for all business which orders came from aggregators,"SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal
+FROM common_biz
+JOIN common_order ON common_biz.biz_id = common_order.biz_id
+JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id
+JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE common_order.order_channel IN ('Swiggy', 'Zomato')
+GROUP BY common_biz.biz_id;",200," Here is a SQL query to get the subtotal revenue for all businesses that have orders from aggregators:  ```sql SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal FROM common_biz JOIN common_order ON common_biz.biz_id = common_order.biz_id JOIN common_bizlocation ON common_b"
+2025-05-01T18:30:17.250721,subtotal revenue for all business which orders came from aggregators,"SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal
+FROM common_biz
+JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id
+JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE common_order.order_channel = 'Swiggy'
+GROUP BY common_biz.biz_id;",200," Here's a SQL query to get the subtotal revenue for all businesses from a specific order channel:  ```sql SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal FROM common_biz JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id JOIN common_order ON common_"
+2025-05-01T23:24:27.269450,subtotal revenue for all business which orders came from aggregators,"SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal
+FROM common_biz
+JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id
+JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE common_order.order_channel IN ('Swiggy', 'Zomato')
+GROUP BY common_biz.biz_id;",200," Here is a SQL query to get the subtotal revenue for all businesses from orders made through aggregators:  ```sql SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal FROM common_biz JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id JOIN common_order ON"
+2025-05-01T23:24:38.032216,subtotal revenue for all business which orders came from aggregators,"SELECT SUM(order_subtotal) as Total_Subtotal
+FROM common_order
+WHERE order_channel IS NOT NULL;",200," ```sql SELECT SUM(order_subtotal) as Total_Subtotal FROM common_order WHERE order_channel IS NOT NULL; ```  This query calculates the total subtotal of all orders for businesses that have orders from aggregators (Swiggy, Zomato, etc.)."
+2025-05-01T23:24:50.494370,subtotal revenue for all business which orders came from aggregators,"SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal
+FROM common_biz
+JOIN common_bizlocation
+ON common_biz.biz_id = common_bizlocation.biz_id
+JOIN common_order
+ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE common_order.order_channel IN ('Swiggy', 'Zomato')
+GROUP BY common_biz.biz_id;",200," Here is a SQL query that calculates the subtotal revenue for all businesses from orders made through aggregators:  ```sql SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal FROM common_biz JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id JOIN common"
+2025-05-01T23:27:22.666626,subtotal revenue for all business which orders came from aggregators,"SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_revenue
+FROM common_biz
+JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id
+JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE common_order.order_channel = 'Swiggy'
+GROUP BY common_biz.biz_id;",200," Here's a SQL query to get the subtotal revenue for all businesses from a specific order channel:  ```sql SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_revenue FROM common_biz JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id JOIN common_order ON common_b"
+2025-05-01T23:27:32.411687,subtotal revenue for all business which orders came from aggregators,"SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal
+FROM common_biz
+JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id
+JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE common_order.order_channel = 'Swiggy'
+GROUP BY common_biz.biz_id;",200," Here's a SQL query to get the subtotal revenue for all businesses from a specific order channel:  ```sql SELECT common_biz.biz_id, SUM(common_order.order_subtotal) as total_subtotal FROM common_biz JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id JOIN common_order ON common_"
+2025-05-01T23:29:00.937256,Total zomato orders for each location,"SELECT biz_location_nick_name, SUM(order_total) as total_orders
+FROM common_bizlocation
+JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE common_order.order_channel = 'Zomato'
+GROUP BY biz_location_nick_name;",200," Here's a SQL query to get the total orders for each location from the 'Zomato' channel:  ```sql SELECT biz_location_nick_name, SUM(order_total) as total_orders FROM common_bizlocation JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id WHERE common_order.order_cha"
+2025-05-01T23:33:27.526778,Total zomato orders for each location,"SELECT biz_location_nick_name, SUM(order_total) as total_orders
+FROM common_order
+WHERE order_channel = 'Zomato'
+GROUP BY biz_location_nick_name;",200," Here is a SQL query that will give you the total orders for each location on Zomato:  ```sql SELECT biz_location_nick_name, SUM(order_total) as total_orders FROM common_order WHERE order_channel = 'Zomato' GROUP BY biz_location_nick_name; ```  This query selects the nickname of each business locati"
+2025-05-01T23:33:54.372332,Total zomato orders for each location,"SELECT biz_location_nick_name, SUM(order_total) as total_orders
+FROM common_bizlocation
+JOIN common_biz ON common_bizlocation.biz_id = common_biz.biz_id
+JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE order_channel = 'Zomato'
+GROUP BY biz_location_nick_name;",200," ```sql SELECT biz_location_nick_name, SUM(order_total) as total_orders FROM common_bizlocation JOIN common_biz ON common_bizlocation.biz_id = common_biz.biz_id JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id WHERE order_channel = 'Zomato' GROUP BY biz_location"
+2025-05-01T23:34:57.508177,Top 5 high revenue locations from swiggy,"SELECT
+    common_bizlocation.biz_location_nick_name,
+    SUM(common_order.order_total) as total_revenue
+FROM
+    common_order
+JOIN
+    common_bizlocation
+ON
+    common_order.biz_location_id = common_bizlocation.biz_location_id
+JOIN
+    common_biz
+ON
+    common_order.biz_id = common_biz.biz_id
+JOIN
+    (SELECT biz_id FROM common_biz WHERE country = 'India') as india_biz
+ON
+    common_biz.biz_id = india_biz.biz_id
+WHERE
+    common_order.order_channel = 'Swiggy'
+GROUP BY
+    common_bizlocation.biz_location_nick_name
+ORDER BY
+    total_revenue DESC
+LIMIT 5;",200," Here's a SQL query to find the top 5 locations with the highest total order amounts from Swiggy:  ```sql SELECT     common_bizlocation.biz_location_nick_name,     SUM(common_order.order_total) as total_revenue FROM     common_order JOIN     common_bizlocation ON     common_order.biz_location_id = c"
+2025-05-01T23:39:17.352075,which location orders has highest tax,"SELECT biz_location_nick_name, SUM(order_total) as total_orders
+FROM common_order
+JOIN common_bizlocation ON common_order.biz_location_id = common_bizlocation.biz_location_id
+JOIN common_biz ON common_order.biz_id = common_biz.biz_id
+GROUP BY biz_location_nick_name
+ORDER BY total_orders DESC
+LIMIT 1;",200," To find the location with the highest total order amount (which could be an approximation of the highest tax, assuming that tax is a percentage of the total order), you can use the following SQL query:  ```sql SELECT biz_location_nick_name, SUM(order_total) as total_orders FROM common_order JOIN co"
+2025-05-01T23:45:28.328238,which location orders has highest tax,"SELECT biz_location_nick_name, SUM(order_total - order_subtotal) as total_tax
+FROM common_order
+JOIN common_bizlocation ON common_order.biz_location_id = common_bizlocation.biz_location_id
+JOIN common_biz ON common_biz.biz_id = common_bizlocation.biz_id
+GROUP BY biz_location_nick_name
+ORDER BY total_tax DESC
+LIMIT 1;",200," To find the location with the highest total tax (order_total - order_subtotal), you can use the following SQL query:  ```sql SELECT biz_location_nick_name, SUM(order_total - order_subtotal) as total_tax FROM common_order JOIN common_bizlocation ON common_order.biz_location_id = common_bizlocation.b"
+2025-05-02T00:33:58.286454,Average revenue from each location,"SELECT
+    common_bizlocation.biz_location_nick_name,
+    AVG(common_order.order_total) as avg_revenue
+FROM
+    common_order
+JOIN
+    common_bizlocation
+ON
+    common_order.biz_location_id = common_bizlocation.biz_location_id
+JOIN
+    common_biz
+ON
+    common_order.biz_id = common_biz.biz_id
+GROUP BY
+    common_bizlocation.biz_location_nick_name;",200," To get the average revenue (order_total) for each location, you can use the following SQL query:  ```sql SELECT     common_bizlocation.biz_location_nick_name,     AVG(common_order.order_total) as avg_revenue FROM     common_order JOIN     common_bizlocation ON     common_order.biz_location_id = com"
+2025-05-02T00:35:06.030442,Average revenue from each location which crosses 500,"SELECT biz_location_nick_name, AVG(order_total) as average_revenue
+FROM common_bizlocation
+JOIN common_biz ON common_bizlocation.biz_id = common_biz.biz_id
+JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE order_total > 500
+GROUP BY biz_location_nick_name
+ORDER BY average_revenue DESC;",200," ```sql SELECT biz_location_nick_name, AVG(order_total) as average_revenue FROM common_bizlocation JOIN common_biz ON common_bizlocation.biz_id = common_biz.biz_id JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id WHERE order_total > 500 GROUP BY biz_location_nic"
+2025-05-02T00:35:56.320171,Average revenue from each location which crosses 1000,"SELECT biz_location_id, AVG(order_total) as avg_order_total
+FROM common_order
+WHERE order_total > 1000
+GROUP BY biz_location_id;",200," Here is a SQL query that will give you the average order total for each location where the total order amount (order_total) is greater than 1000:  ```sql SELECT biz_location_id, AVG(order_total) as avg_order_total FROM common_order WHERE order_total > 1000 GROUP BY biz_location_id; ```  This query "
+2025-05-02T00:36:13.420589,Average revenue from each location which crosses 1000,"SELECT biz_location_id, AVG(order_total) as avg_revenue
+FROM common_order
+WHERE order_total > 1000
+GROUP BY biz_location_id",200," Here is a SQL query to find the average revenue from each location which crosses 1000:  ```sql SELECT biz_location_id, AVG(order_total) as avg_revenue FROM common_order WHERE order_total > 1000 GROUP BY biz_location_id ```  This query selects the `biz_location_id` and calculates the average `order_"
+2025-05-02T00:36:33.296948,Average revenue from each location name which crosses 1000,"SELECT
+    common_bizlocation.biz_location_nick_name,
+    AVG(common_order.order_total) as avg_revenue
+FROM
+    common_bizlocation
+JOIN
+    common_biz ON common_bizlocation.biz_id = common_biz.biz_id
+JOIN
+    common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE
+    common_order.order_total > 1000
+GROUP BY
+    common_bizlocation.biz_location_nick_name
+HAVING
+    AVG(common_order.order_total) > 1000;",200," Here's a SQL query that calculates the average revenue per location nickname where the total revenue from that location is more than 1000:  ```sql SELECT     common_bizlocation.biz_location_nick_name,     AVG(common_order.order_total) as avg_revenue FROM     common_bizlocation JOIN     common_biz O"
+2025-05-02T00:43:50.346331,Average gross revenue & net revenue through orders from each location name which crosses 1000,"SELECT
+    common_bizlocation.biz_location_nick_name,
+    AVG(common_order.order_subtotal) AS avg_gross_revenue,
+    AVG(common_order.order_total) AS avg_net_revenue
+FROM
+    common_bizlocation
+JOIN
+    common_biz ON common_bizlocation.biz_id = common_biz.biz_id
+JOIN
+    common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+WHERE
+    common_order.order_total > 1000
+GROUP BY
+    common_bizlocation.biz_location_nick_name;",200," Here's a SQL query that calculates the average gross revenue and net revenue for each location name that has a total order amount (net revenue) greater than 1000:  ```sql SELECT     common_bizlocation.biz_location_nick_name,     AVG(common_order.order_subtotal) AS avg_gross_revenue,     AVG(common_"
+2025-05-02T00:45:50.703811,Average gross revenue & net revenue through orders from each location name which crosses 1000,"SELECT
+    common_bizlocation.biz_location_nick_name,
+    AVG(common_order.order_total) AS average_gross_revenue,
+    SUM(common_order.order_total) - SUM(common_order.order_subtotal) AS average_net_revenue
+FROM
+    common_order
+JOIN
+    common_biz ON common_order.biz_id = common_biz.biz_id
+JOIN
+    common_bizlocation ON common_order.biz_location_id = common_bizlocation.biz_location_id
+WHERE
+    common_order.order_total > 1000
+GROUP BY
+    common_bizlocation.biz_location_nick_name
+HAVING
+    AVG(common_order.order_total) > 1000 OR AVG(common_order.order_total - common_order.order_subtotal) > 1000;",200," ```sql SELECT     common_bizlocation.biz_location_nick_name,     AVG(common_order.order_total) AS average_gross_revenue,     SUM(common_order.order_total) - SUM(common_order.order_subtotal) AS average_net_revenue FROM     common_order JOIN     common_biz ON common_order.biz_id = common_biz.biz_id J"
+2025-05-02T10:51:09.680156,total orders from zomato,"SELECT COUNT(order_id) AS total_orders
+FROM common_order
+WHERE order_channel = 'Zomato';",200, ```sql SELECT COUNT(order_id) AS total_orders FROM common_order WHERE order_channel = 'Zomato'; ```
+2025-05-02T10:51:37.449258,total orders from zomato & swiggy,"SELECT COUNT(*)
+FROM common_order
+WHERE order_channel IN ('Zomato', 'Swiggy');",200," Here is a SQL query that will give you the total number of orders from both Zomato and Swiggy:  ```sql SELECT COUNT(*) FROM common_order WHERE order_channel IN ('Zomato', 'Swiggy'); ```"
+2025-05-02T10:52:25.868985,Compare orders count from zomato & swiggy,"SELECT SUM(CASE WHEN order_channel = 'Zomato' THEN 1 ELSE 0 END) AS zomato_orders,
+       SUM(CASE WHEN order_channel = 'Swiggy' THEN 1 ELSE 0 END) AS swiggy_orders
+FROM common_order;",200," ```sql SELECT SUM(CASE WHEN order_channel = 'Zomato' THEN 1 ELSE 0 END) AS zomato_orders,        SUM(CASE WHEN order_channel = 'Swiggy' THEN 1 ELSE 0 END) AS swiggy_orders FROM common_order; ```"
+2025-05-02T10:53:32.082927,Compare orders count from zomato & swiggy from each business,"SELECT
+    b.biz_id,
+    COUNT(CASE WHEN c.order_channel = 'Zomato' THEN 1 END) AS zomato_orders,
+    COUNT(CASE WHEN c.order_channel = 'Swiggy' THEN 1 END) AS swiggy_orders
+FROM
+    common_biz b
+JOIN
+    common_order c ON b.biz_id = c.biz_id
+GROUP BY
+    b.biz_id;",200," Here is a SQL query that will give you the number of orders from Zomato and Swiggy for each business:  ```sql SELECT     b.biz_id,     COUNT(CASE WHEN c.order_channel = 'Zomato' THEN 1 END) AS zomato_orders,     COUNT(CASE WHEN c.order_channel = 'Swiggy' THEN 1 END) AS swiggy_orders FROM     common"
+2025-05-02T12:42:29.698917,Gross total & net total for locations where average is more than 500,"SELECT
+    common_bizlocation.biz_location_id,
+    AVG(common_order.order_total) AS average_order_total,
+    SUM(common_order.order_total) AS gross_total,
+    SUM(common_order.order_total) - SUM(common_order.order_subtotal) AS net_total
+FROM
+    common_order
+JOIN
+    common_bizlocation ON common_order.biz_location_id = common_bizlocation.biz_location_id
+JOIN
+    common_biz ON common_bizlocation.biz_id = common_biz.biz_id
+GROUP BY common_bizlocation.biz_location_id
+HAVING AVG(common_order.order_total) > 500;",200," Here's a SQL query that calculates the gross total and net total for locations where the average order total is more than 500:  ```sql SELECT     common_bizlocation.biz_location_id,     AVG(common_order.order_total) AS average_order_total,     SUM(common_order.order_total) AS gross_total,     SUM(c"
+2025-05-02T12:44:34.326374,Gross total & sub total for locations where average is more than 500,"SELECT
+    common_bizlocation.biz_location_id,
+    AVG(common_order.order_total) as avg_order_total,
+    SUM(common_order.order_subtotal) as subtotal,
+    SUM(common_order.order_total) as gross_total
+FROM
+    common_order
+JOIN
+    common_bizlocation
+ON
+    common_order.biz_location_id = common_bizlocation.biz_location_id
+GROUP BY
+    common_bizlocation.biz_location_id
+HAVING
+    AVG(common_order.order_total) > 500;",200," Here's a SQL query that calculates the gross total and subtotal for locations where the average order total is more than 500:  ```sql SELECT     common_bizlocation.biz_location_id,     AVG(common_order.order_total) as avg_order_total,     SUM(common_order.order_subtotal) as subtotal,     SUM(common"
+2025-05-02T12:53:08.475612,Gross total & sub total for locations where average is more than 500,"SELECT
+    common_bizlocation.biz_location_id,
+    SUM(common_order.order_total) AS gross_total,
+    SUM(common_order.order_subtotal) AS subtotal
+FROM
+    common_order
+JOIN
+    common_bizlocation ON common_order.biz_location_id = common_bizlocation.biz_location_id
+GROUP BY
+    common_bizlocation.biz_location_id
+HAVING
+    (
+        SELECT
+            AVG(common_order.order_total)
+        FROM
+            common_order
+        WHERE
+            common_order.biz_location_id = common_bizlocation.biz_location_id
+    ) > 500;",200," Here's a SQL query that calculates the gross total and subtotal for locations where the average order total is more than 500:  ```sql SELECT     common_bizlocation.biz_location_id,     SUM(common_order.order_total) AS gross_total,     SUM(common_order.order_subtotal) AS subtotal FROM     common_ord"
+2025-05-02T13:28:28.606964,total orders from zomato & swiggy based on the location,"SELECT
+    b.biz_name,
+    c.city,
+    SUM(common_order.order_total) as total_orders
+FROM
+    common_biz b
+JOIN
+    common_bizlocation c ON b.biz_id = c.biz_id
+JOIN
+    common_order o ON c.biz_location_id = o.biz_location_id
+WHERE
+    o.order_channel IN ('Zomato', 'Swiggy')
+GROUP BY
+    b.biz_name, c.city;",200," Here's a SQL query that will give you the total orders from Zomato and Swiggy based on location:  ```sql SELECT     b.biz_name,     c.city,     SUM(common_order.order_total) as total_orders FROM     common_biz b JOIN     common_bizlocation c ON b.biz_id = c.biz_id JOIN     common_order o ON c.biz_l"
+2025-05-02T13:28:50.209816,total orders from zomato & swiggy based on the location,"SELECT SUM(order_id) as total_orders
+FROM common_order
+WHERE order_channel IN ('Zomato', 'Swiggy')
+AND biz_location_id IN (
+    SELECT biz_location_id
+    FROM common_bizlocation
+);",200," ```sql SELECT SUM(order_id) as total_orders FROM common_order WHERE order_channel IN ('Zomato', 'Swiggy') AND biz_location_id IN (     SELECT biz_location_id     FROM common_bizlocation ); ```"
+2025-05-02T13:29:03.139743,How much revenue from swiggy aggregator,"SELECT SUM(order_total) as total_revenue
+FROM common_order
+WHERE order_channel = 'Swiggy';",200," To get the total revenue from Swiggy aggregator, you can use the following SQL query:  ```sql SELECT SUM(order_total) as total_revenue FROM common_order WHERE order_channel = 'Swiggy'; ```"
+2025-05-02T13:29:59.598488,top 5 stores that has good revenue,"SELECT common_biz.biz_id, common_biz.biz_name, SUM(common_order.order_total) as total_revenue
+FROM common_biz
+JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id
+JOIN common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+GROUP BY common_biz.biz_id
+ORDER BY total_revenue DESC
+LIMIT 5;",200," To find the top 5 stores with the highest total order amount, you can use the following SQL query:  ```sql SELECT common_biz.biz_id, common_biz.biz_name, SUM(common_order.order_total) as total_revenue FROM common_biz JOIN common_bizlocation ON common_biz.biz_id = common_bizlocation.biz_id JOIN comm"
+2025-05-02T13:30:58.557018,top 5 locations that has good revenue,"SELECT
+    common_bizlocation.biz_location_nick_name,
+    SUM(common_order.order_total) as total_revenue
+FROM
+    common_order
+JOIN
+    common_bizlocation
+ON
+    common_order.biz_location_id = common_bizlocation.biz_location_id
+JOIN
+    common_biz
+ON
+    common_order.biz_id = common_biz.biz_id
+GROUP BY
+    common_bizlocation.biz_location_nick_name
+ORDER BY
+    total_revenue DESC
+LIMIT 5;",200," To find the top 5 locations that have the highest total order amounts, you can use the following SQL query:  ```sql SELECT     common_bizlocation.biz_location_nick_name,     SUM(common_order.order_total) as total_revenue FROM     common_order JOIN     common_bizlocation ON     common_order.biz_loca"
+2025-05-02T15:49:54.006355,what are toltal orders for cheesiano pizza business,"SELECT SUM(order_total) as total_orders
+FROM common_order
+WHERE biz_name = 'cheesiano pizza' AND fulfillment_mode = 'delivery';",200, ```sql SELECT SUM(order_total) as total_orders FROM common_order WHERE biz_name = 'cheesiano pizza' AND fulfillment_mode = 'delivery'; ```
+2025-05-02T15:50:46.595812,top 5 locations that has good revenue,"SELECT
+    biz_location_nick_name,
+    SUM(order_total) as total_revenue
+FROM
+    common_bizlocation
+JOIN
+    common_biz ON common_bizlocation.biz_id = common_biz.biz_id
+JOIN
+    common_order ON common_bizlocation.biz_location_id = common_order.biz_location_id
+GROUP BY
+    biz_location_nick_name
+ORDER BY
+    total_revenue DESC
+LIMIT 5;",200," To find the top 5 locations with the highest total order amount, you can use the following SQL query:  ```sql SELECT     biz_location_nick_name,     SUM(order_total) as total_revenue FROM     common_bizlocation JOIN     common_biz ON common_bizlocation.biz_id = common_biz.biz_id JOIN     common_ord"
+2025-05-02T16:11:59.450448,top 5 locations that has good revenue,"SELECT common_bizlocation.biz_location_nick_name, SUM(common_order.order_total) as total_revenue
+FROM common_order
+JOIN common_bizlocation ON common_order.biz_location_id = common_bizlocation.biz_location_id
+JOIN common_biz ON common_order.biz_id = common_biz.biz_id
+GROUP BY common_bizlocation.biz_location_nick_name
+ORDER BY total_revenue DESC
+LIMIT 5;",200," To find the top 5 locations that have the highest total order amount (revenue), you can use the following SQL query:  ```sql SELECT common_bizlocation.biz_location_nick_name, SUM(common_order.order_total) as total_revenue FROM common_order JOIN common_bizlocation ON common_order.biz_location_id = c"
+2025-05-02T16:14:58.915797,top 5 locations that has good revenue,"SELECT
+    common_bizlocation.biz_location_nick_name,
+    SUM(common_order.order_total) as total_revenue
+FROM
+    common_bizlocation
+JOIN
+    common_order
+ON
+    common_bizlocation.biz_id = common_order.biz_id
+    AND common_bizlocation.biz_location_id = common_order.biz_location_id
+GROUP BY
+    common_bizlocation.biz_location_nick_name
+ORDER BY
+    total_revenue DESC
+LIMIT 5;",200," To find the top 5 locations with the highest total order amount, you can use the following SQL query:  ```sql SELECT     common_bizlocation.biz_location_nick_name,     SUM(common_order.order_total) as total_revenue FROM     common_bizlocation JOIN     common_order ON     common_bizlocation.biz_id ="
+2025-05-02T16:15:47.556527,top 5 locations that has good revenue,"SELECT
+    common_bizlocation.biz_location_nick_name,
+    SUM(common_order.order_total) as total_revenue
+FROM
+    common_bizlocation
+JOIN
+    common_order
+ON
+    common_bizlocation.biz_id = common_order.biz_id
+    AND common_bizlocation.biz_location_id = common_order.biz_location_id
+GROUP BY
+    common_bizlocation.biz_location_nick_name
+ORDER BY
+    total_revenue DESC
+LIMIT 5;",200," To find the top 5 locations with the highest total order amount, you can use the following SQL query:  ```sql SELECT     common_bizlocation.biz_location_nick_name,     SUM(common_order.order_total) as total_revenue FROM     common_bizlocation JOIN     common_order ON     common_bizlocation.biz_id ="
+2025-05-02T16:18:44.959178,top 5 locations that has good revenue & sub total,"SELECT
+    common_bizlocation.biz_location_nick_name,
+    SUM(common_order.order_total) as total_revenue,
+    SUM(common_order.order_subtotal) as total_subtotal
+FROM
+    common_order
+JOIN
+    common_bizlocation
+ON
+    common_order.biz_location_id = common_bizlocation.biz_location_id
+JOIN
+    common_biz
+ON
+    common_order.biz_id = common_biz.biz_id
+GROUP BY
+    common_bizlocation.biz_location_nick_name
+ORDER BY
+    total_revenue DESC, total_subtotal DESC
+LIMIT 5;",200," To find the top 5 locations that have the highest total order amount and subtotal, you can use the following SQL query:  ```sql SELECT     common_bizlocation.biz_location_nick_name,     SUM(common_order.order_total) as total_revenue,     SUM(common_order.order_subtotal) as total_subtotal FROM     c"
